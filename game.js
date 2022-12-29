@@ -32,7 +32,7 @@ function nextSequence() {
 
 //plays sound associated to button
 function playSound(name) {
-    var makeSound = new Audio("/sounds/" + name + ".mp3");
+    var makeSound = new Audio("sounds/" + name + ".mp3");
     makeSound.play();
 }
 
@@ -46,13 +46,11 @@ function animatePress(name) {
 
 function checkAnswer(currentLevel) {
     if(gamePattern[currentLevel] === userClickedPattern[currentLevel]){
-        console.log("success");
         if(gamePattern.length === userClickedPattern.length){
             setTimeout(nextSequence, 1000);
             userClickedPattern = [];
         }
     }else{
-        console.log("fail");
         $("body").addClass("game-over");
         playSound("wrong");
         setTimeout(function() {
