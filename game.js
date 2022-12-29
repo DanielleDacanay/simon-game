@@ -16,7 +16,7 @@ $(".btn").click(function() {
     animatePress(userChosenColor);
     userClickedPattern.push(userChosenColor);
     playSound(userChosenColor);
-    console.log(userClickedPattern);
+    checkAnswer(userClickedPattern.length - 1);
 });
 
 //prompts the user for which button to click next
@@ -26,7 +26,8 @@ function nextSequence() {
     gamePattern.push(chosenColor);
     $("#" + chosenColor).fadeOut(200).fadeIn(200);
     playSound(chosenColor);
-    level += 1;
+    level = level + 1;
+    $("#level-title").text("Level " + level);
 }
 
 //plays sound associated to button
@@ -41,4 +42,31 @@ function animatePress(name) {
     setTimeout(function() {
         $("#" + name).removeClass("pressed");
     }, 100)
+}
+
+function checkAnswer(currentLevel) {
+    if(gamePattern[currentLevel] === userClickedPattern[currentLevel]){
+        console.log("success");
+        if(gamePattern.length === userClickedPattern.length){
+            setTimeout(nextSequence, 1000);
+            userClickedPattern = [];
+        }
+    }else{
+        console.log("fail");
+        $("body").addClass("game-over");
+        playSound("wrong");
+        setTimeout(function() {
+            $("body").removeClass("game-over");
+        }, 200);
+        $("#level-title").text("Game Over! Press any key to play again.");
+        startOver(0);
+    }
+}
+
+function startOver() {
+    level = 0;
+    gamePattern = [];
+    $(document).on("keypress", function() {
+        window.location.reload();
+    })
 }

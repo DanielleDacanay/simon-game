@@ -22,7 +22,7 @@ body {
   display: inline-block;
   height: 80px;
   width: 80px;
-  border: 10px solid black;
+  border: 10px solid #263159;
   border-radius: 20%;
   padding: 10%;
 }
