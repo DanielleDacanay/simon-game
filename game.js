@@ -2,13 +2,16 @@ var btnColors = ["red", "blue", "green", "yellow"];
 var gamePattern = []; //stores the color pattern the game has generated
 var userClickedPattern = []; //stores the button pattern the user has clicked
 var level = 0;
+var started = false;
 
-//start game on first keypress
-$(document).one("keypress", nextSequence);
-$(document).one("keypress", function(){
-    $("#level-title").text("Level " + level);
+//start game on first keypress or on restart
+$(document).keypress(function() {
+    if (started != true) {
+        nextSequence();
+        $("#level-title").text("Level " + level);
+        started = true;
+    }
 });
-
 
 //feedback when user clicks a button, store color that was clicked
 $(".btn").click(function() {
@@ -28,11 +31,12 @@ function nextSequence() {
     playSound(chosenColor);
     level = level + 1;
     $("#level-title").text("Level " + level);
+    started = true;
 }
 
 //plays sound associated to button
 function playSound(name) {
-    var makeSound = new Audio("sounds/" + name + ".mp3");
+    var makeSound = new Audio("./sounds/" + name + ".mp3");
     makeSound.play();
 }
 
@@ -64,7 +68,6 @@ function checkAnswer(currentLevel) {
 function startOver() {
     level = 0;
     gamePattern = [];
-    $(document).on("keypress", function() {
-        window.location.reload();
-    })
+    userClickedPattern = [];
+    started = false;
 }
